@@ -1,28 +1,70 @@
-vector<int> abc(Node * root,vector<int> &v)
+#include<bits/stdc++.h>
+using namespace std;
+
+struct Node 
 {
-    if(root!=NULL)
+	int data; 
+	Node* left;
+	Node* right;
+};
+
+Node* GetNewNode(int data) 
+{
+	Node* newNode = new Node();
+	newNode->data = data;
+	newNode->left = newNode->right = NULL;
+	return newNode;
+}
+
+Node* Insert(Node* root,int data) 
+{
+	if(root == NULL)                                      // empty tree
+    {                                           
+		root = GetNewNode(data);
+	}
+	
+	else if(data <= root->data)                         // if data to be inserted start lesser, insert inorder left subtree. 
     {
-        abc(root->left,v);
-        v.push_back(root->data);
-        abc(root->right,v);
-    }
-    else
-    return v;
-    return v;
+		root->left = Insert(root->left,data);
+	}
+	
+	else                                                // else, insert inorder right subtree. 
+    {
+		root->right = Insert(root->right,data);
+	}
+	return root;
 }
-int isPairPresent(struct Node *root, int k)
+
+bool pair_sum_exist(Node* root,int sum, unordered_set<int> &s)
 {
-vector<int> v;
-v=abc(root,v);
-int start=0,end=v.size()-1;
-while(start<=end)
-{
-    if((v[start]+v[end])==k)
-    return 1;
-    else if((v[start]+v[end])>k)
-    end=end-1;
-    else
-    start=start+1;
+	if(root==NULL)
+	return false;
+
+	if(pair_sum_exist(root->left,sum,s)==true)
+	return true;
+
+	if(s.find(sum-(root->data))!=s.end())
+	return true;
+	else
+	s.insert(root->data);
+
+	return pair_sum_exist(root->right,sum,s);
+
 }
-return 0;
+
+int main() 
+{
+	Node* root = NULL;  			// Creating an empty tree
+	root = Insert(root,15);	
+	root = Insert(root,10);	
+	root = Insert(root,20);
+	root = Insert(root,8);
+	root = Insert(root,12);
+	root = Insert(root,17);
+	root = Insert(root,25);
+
+	unordered_set<int>s;
+	int sum=33;
+	cout<<pair_sum_exist(root,sum,s);
+
 }
