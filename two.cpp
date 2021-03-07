@@ -7,9 +7,7 @@ vector<int> abc(Node * root,vector<int> &v)
         abc(root->right,v);
     }
     else
-    {
     return v;
-    }
     return v;
 }
 int isPairPresent(struct Node *root, int k)
